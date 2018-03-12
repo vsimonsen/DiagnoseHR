@@ -148,8 +148,8 @@ result <- data.frame(ID = NA, loc_number = NA, HR_size = NA) # make result df to
       mutate(method = type) %>%
       dplyr::select(ID, N, base_HR, mean_hr, se, min, q25, q50, max, hr_method) %>% distinct() -> result_tab
       
-sensitivity.plots <- vector("list", locs$ID)   # create an empty list to save sensitivity plots
-leverage.plots <- vector("list", locs$ID)   # create an empty list to save leverage plots in
+sensitivity.plots <- list()  # create an empty list to save sensitivity plots
+leverage.plots <- list()   # create an empty list to save leverage plots in
   
 for (i in levels(ID)){
   
@@ -160,8 +160,8 @@ for (i in levels(ID)){
             xlab = "Location number removed", ylab = "Home range size")
   lines(plot_result$loc_number, plot_result$HR_size)
 
-  p1 <- recordPlot() # assign sensitivity plot to p1
-  sensitivity.plots[i] <- p1 # save p1 to sensitivity.plots list 
+  sensitivity.plots[[i]] <- recordPlot() # save plot to sensitivity.plots list 
+  invisible(dev.off())
   
   hist(plot_result$leverage,
   main = paste("Leverage distribution of individual", as.character(i), sep = " "),
@@ -169,8 +169,9 @@ for (i in levels(ID)){
   ylab = "Frequency",
   breaks = 10)
   
-  p2 <- recordPlot() # assign leverage plot to p2
-  leverage.plots[i] <- p2 # save p2 to leverage.plots list
+  leverage.plots[[i]] <- recordPlot() #save plot to leverage.plots list
+  invisible(dev.off())
+  
 }
     
   out <<- list(result = result, result_tab = result_tab, sensitivity.plots = sensitivity.plots, leverage.plots = leverage.plots)
@@ -236,7 +237,7 @@ hrAsym <- function(locs = NULL,
             mutate(n_locs = row_number()) %>%
             filter(n_locs > min_locs) %>% mutate(HR_size = NA)
   
-  asymptote.plots <- vector("list", locs$ID)   # create an empty list to save asymptote plots to  
+  asymptote.plots <- list()   # create an empty list to save asymptote plots to  
   
   # assign results in loop
   
@@ -280,8 +281,8 @@ hrAsym <- function(locs = NULL,
          xlab = "Number of locations included in home range estimate", ylab = "Home range size")
     lines(result$n_locs[result$ID == i], result$HR_size[result$ID == i])
 
-    p3 <- recordPlot()
-    asymptote.plots[i] <- p3
+    asymptote.plots[[i]] <- recordPlot() # save plot to asymptote.plots list
+    invisible(dev.off())
     
     }
   
