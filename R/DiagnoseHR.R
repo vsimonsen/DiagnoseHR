@@ -231,13 +231,13 @@ hrAsym <- function(locs = NULL,
             mutate(n_locs = row_number()) %>%
             filter(n_locs > min_locs) %>% mutate(HR_size = NA)
           
+  asmptote.plots <- list()
   
   # assign results in loop
   
   for (i in levels(ID)){
     
     plotHR <- locs[locs$ID == i,]
-    
     
     for (j in 10:length(plotHR)){
       
@@ -275,9 +275,11 @@ hrAsym <- function(locs = NULL,
          xlab = "Number of locations included in home range estimate", ylab = "Home range size")
     lines(result$n_locs[result$ID == i], result$HR_size[result$ID == i])
 
+    asymptote.plots[[i]] <- recordPlot() # save plot to asymptote.plots list
+    plot.new()
     
     }
   
-  out <<- list(result = result)
+  out <<- list(result = result, asymptote.plots = asymptote.plots)
   print(out)
 }
