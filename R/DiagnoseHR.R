@@ -38,6 +38,7 @@ hrDiag <- function(locs = NULL,
 require(adehabitatHR)
 require(dplyr)
 require(sp)
+require(ggplot2)
   
 locs <- SpatialPointsDataFrame(locs, coords = locs[c("x","y")])
 
@@ -48,6 +49,8 @@ locs$ID <- ID # assign loc ID as ID vector specified above. Will use for countin
 
 base <- data.frame(ID = levels(ID), base_HR = NA) # make df to hold base hr results
 result <- data.frame(ID = NA, loc_number = NA, HR_size = NA) # make result df to hold sample HR esitmats
+sensitivity.plots <- list()  # create an empty list to save sensitivity plots
+leverage.plots <- list()   # create an empty list to save leverage plots in
 
 
   for (i in levels(ID)){ #our input df MUST have a column called "ID"
@@ -151,20 +154,30 @@ result <- data.frame(ID = NA, loc_number = NA, HR_size = NA) # make result df to
     
 for (i in levels(ID)){
   
-  plot_result <- result[result$ID == i,]
-   
-  plot(plot_result$loc_number, plot_result$HR_size, pch = 19,
-            main = paste("Home range sizes of individual", i, sep = " "),
-            xlab = "Location number removed", ylab = "Home range size")
-  lines(plot_result$loc_number, plot_result$HR_size)
-
-  hist(plot_result$leverage,
-  main = paste("Leverage distribution of individual", as.character(i), sep = " "),
-  xlab = "Leverage",
-  ylab = "Frequency",
-  breaks = 10)
+  plot.data <- result %>% 
+      filter(ID == i) %>%
+      ungroup() %>%
+      mutate(ID = as.character(ID))
   
-  out <<- list(result = result, result_tab = result_tab)
+  sensitivity.plot <- ggplot(data = plot.data) + 
+    geom_line(aes(x = loc_number, y = HR_size)) + 
+    geom_point(aes(x = loc_number, y = HR_size)) + 
+    labs(title = paste("Home range size of individual " i), x = "Location number removed", y = "Home range size") + 
+    theme_classic()
+  
+  sensitivity.plot
+  sensitivity.plots[[i]] <- sensitivitiy.plot # save plot to sensitivity.plots list 
+
+  leverage.plot <- ggplot(data = plot.data) + 
+    geom_histogram(aes(x = leverage), binwidth = 10) + 
+    labs(title = paste("Leverage distribution of individual ", i), x = "Leverage", y = "Frequency") + 
+    theme_classic()
+   
+  leverage.plot
+  leverage.plots[[i]] <- leverage.plot #save plot to leverage.plots list
+ 
+  
+  out <<- list(result = result, result_tab = result_tab, sensitivity.plots = sensitivity.plots, leverage.plots = leverage.plots)
   print(out)
   
 }
@@ -278,7 +291,8 @@ hrAsym <- function(locs = NULL,
     asymptote.plot <- ggplot(data = plot.data) + 
       geom_line(aes(x = n_locs, y = HR_size)) + 
       geom_point(aes(x = n_locs, y = HR_size)) + 
-      labs(title = paste("Home range size of individual ", i), x = "Number of locations included in home range estimate", y = "Home range size")
+      labs(title = paste("Home range size of individual ", i), x = "Number of locations included in home range estimate", y = "Home range size") + 
+      theme_classic()
     
     asymptote.plot
     asymptote.plots[[i]] <- asymptote.plot # save plot to asymptote.plots list
