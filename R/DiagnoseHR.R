@@ -275,16 +275,16 @@ hrAsym <- function(locs = NULL,
       ungroup() %>%
       mutate(ID = as.character(ID))
              
-    ggplot(data = plot.data) + 
+    asymptote.plot <- ggplot(data = plot.data) + 
       geom_line(aes(x = n_locs, y = HR_size)) + 
       geom_point(aes(x = n_locs, y = HR_size)) + 
       labs(title = paste("Home range size of individual ", i), x = "Number of locations included in home range estimate", y = "Home range size")
     
-    #asymptote.plot
-    #asymptote.plots[[i]] <- asymptote.plot # save plot to asymptote.plots list
+    asymptote.plot
+    asymptote.plots[[i]] <- asymptote.plot # save plot to asymptote.plots list
     
     }
   
-  out <<- list(result = result)
+  out <<- list(result = result, asymptote.plots = asymptote.plots)
   print(out)
 }
