@@ -271,7 +271,8 @@ hrAsym <- function(locs = NULL,
     }
     
     plot.data <- result %>% 
-      filter(ID == i) %>% 
+      filter(ID == i) %>%
+      ungroup() %>%
       mutate(ID = as.character(ID))
              
     ggplot(data = plot.data) + 
