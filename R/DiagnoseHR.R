@@ -169,7 +169,7 @@ for (i in levels(ID)){
   sensitivity.plots[[i]] <- sensitivity.plot # save plot to sensitivity.plots list 
 
   leverage.plot <- ggplot(data = plot.data) + 
-    geom_histogram(aes(x = leverage), binwidth = 10) + 
+    geom_histogram(aes(x = leverage), bins = 10) + 
     labs(title = paste("Leverage distribution of individual ", i), x = "Leverage", y = "Frequency") + 
     theme_classic()
    
