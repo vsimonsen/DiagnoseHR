@@ -166,7 +166,7 @@ for (i in levels(ID)){
     theme_bw()
   
   sensitivity.plot
-  sensitivity.plots[[i]] <- sensitivitiy.plot # save plot to sensitivity.plots list 
+  sensitivity.plots[[i]] <- sensitivity.plot # save plot to sensitivity.plots list 
 
   leverage.plot <- ggplot(data = plot.data) + 
     geom_histogram(aes(x = leverage), binwidth = 10) + 
