@@ -163,7 +163,7 @@ for (i in levels(ID)){
     geom_line(aes(x = loc_number, y = HR_size)) + 
     geom_point(aes(x = loc_number, y = HR_size)) + 
     labs(title = paste("Home range size of individual " i), x = "Location number removed", y = "Home range size") + 
-    theme_classic()
+    theme_bw()
   
   sensitivity.plot
   sensitivity.plots[[i]] <- sensitivitiy.plot # save plot to sensitivity.plots list 
@@ -171,7 +171,7 @@ for (i in levels(ID)){
   leverage.plot <- ggplot(data = plot.data) + 
     geom_histogram(aes(x = leverage), binwidth = 10) + 
     labs(title = paste("Leverage distribution of individual ", i), x = "Leverage", y = "Frequency") + 
-    theme_classic()
+    theme_bw()
    
   leverage.plot
   leverage.plots[[i]] <- leverage.plot #save plot to leverage.plots list
@@ -292,7 +292,7 @@ hrAsym <- function(locs = NULL,
       geom_line(aes(x = n_locs, y = HR_size)) + 
       geom_point(aes(x = n_locs, y = HR_size)) + 
       labs(title = paste("Home range size of individual ", i), x = "Number of locations included in home range estimate", y = "Home range size") + 
-      theme_classic()
+      theme_bw()
     
     asymptote.plot
     asymptote.plots[[i]] <- asymptote.plot # save plot to asymptote.plots list
