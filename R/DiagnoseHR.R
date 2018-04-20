@@ -232,7 +232,7 @@ hrAsym <- function(locs = NULL,
             mutate(n_locs = row_number()) %>%
             filter(n_locs > min_locs) %>% mutate(HR_size = NA)
           
-  asmptote.plots <- list()
+  asymptote.plots <- list()
   
   # assign results in loop
   
