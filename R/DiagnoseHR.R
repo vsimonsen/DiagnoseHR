@@ -162,7 +162,7 @@ for (i in levels(ID)){
   sensitivity.plot <- ggplot(data = plot.data) + 
     geom_line(aes(x = loc_number, y = HR_size)) + 
     geom_point(aes(x = loc_number, y = HR_size)) + 
-    labs(title = paste("Home range size of individual " i), x = "Location number removed", y = "Home range size") + 
+    labs(title = paste("Home range size of individual ", i), x = "Location number removed", y = "Home range size") + 
     theme_bw()
   
   sensitivity.plot
