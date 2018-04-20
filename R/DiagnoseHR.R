@@ -175,13 +175,11 @@ for (i in levels(ID)){
    
   leverage.plot
   leverage.plots[[i]] <- leverage.plot #save plot to leverage.plots list
- 
+  
+}
   
   out <<- list(result = result, result_tab = result_tab, sensitivity.plots = sensitivity.plots, leverage.plots = leverage.plots)
   print(out)
-  
-}
-    
     
         
 }
